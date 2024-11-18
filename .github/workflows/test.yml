@@ -14,5 +14,5 @@ jobs:
       - name: print
         run: |
           ls
-          echo ${{ github.event }}
+          echo ${{ toJson(github.event) }}
           
