@@ -5,8 +5,32 @@ on:
   schedule:
     - cron: "0 0 1 * *"
 
+env:
+  MY_VAR: "init_value"
+
 jobs:
   hello:
+    runs-on: ubuntu-22.04
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set Var
+        run: |
+          if [[ "${{ github.event_name }}" == "push" ]]; then
+            echo "MY_VAR=updated_push" >> $GITHUB_ENV
+          else
+            echo "MY_VAR=updated" >> $GITHUB_ENV
+          fi
+
+      - name: print
+        run: |
+          echo ${{ github.event_name }}
+          echo ${{ github.ref }}
+          echo ${{ env.MY_VAR }}
+
+
+  next-job:
+    needs: hello
     runs-on: ubuntu-22.04
 
     steps:
@@ -15,4 +39,6 @@ jobs:
         run: |
           echo ${{ github.event_name }}
           echo ${{ github.ref }}         
-          
+          echo ${{ env.MY_VAR }}
+
+      
