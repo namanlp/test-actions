@@ -12,15 +12,21 @@ jobs:
   hello:
     runs-on: ubuntu-22.04
 
+    outputs:
+      var: ${{ steps.set-var.outputs.MY_VAR }}
+
     steps:
       - uses: actions/checkout@v4
       - name: Set Var
+        id: set-var
         run: |
           if [[ "${{ github.event_name }}" == "push" ]]; then
             echo "MY_VAR=updated_push" >> $GITHUB_ENV
           else
             echo "MY_VAR=updated" >> $GITHUB_ENV
           fi
+          echo "MY_VAR=${{ env.MY_VAR }}" >> "$GITHUB_OUTPUT"
+
 
       - name: print
         run: |
@@ -40,5 +46,17 @@ jobs:
           echo ${{ github.event_name }}
           echo ${{ github.ref }}         
           echo ${{ env.MY_VAR }}
-
+          echo ${{ needs.hello.outputs.var }}
       
+  another-job:
+    needs: [hello, next-job]
+    runs-on: ubuntu-22.04
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: print
+        run: |
+          echo ${{ github.event_name }}
+          echo ${{ github.ref }}         
+          echo ${{ env.MY_VAR }}
+          echo ${{ needs.hello.outputs.var }}
