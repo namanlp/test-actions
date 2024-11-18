@@ -14,7 +14,5 @@ jobs:
       - name: print
         run: |
           echo ${{ github.event_name }}
-          echo ${{ github.ref }}  
-          echo ${{ toJson(github.event) }}
-          
+          echo ${{ github.ref }}         
           
