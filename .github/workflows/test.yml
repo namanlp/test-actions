@@ -33,6 +33,7 @@ jobs:
           echo ${{ github.event_name }}
           echo ${{ github.ref }}
           echo ${{ env.MY_VAR }}
+          echo $my_var
 
 
   next-job:
