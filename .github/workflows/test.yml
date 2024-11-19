@@ -21,12 +21,12 @@ jobs:
         id: set-var
         run: |
           if [[ "${{ github.event_name }}" == "push" ]]; then
-            echo "MY_VAR=updated_push" >> $GITHUB_ENV
+            my_var="updated_push"
           else
-            echo "MY_VAR=updated" >> $GITHUB_ENV
+            my_var="updated"
           fi
-          echo "MY_VAR=${{ env.MY_VAR }}" >> "$GITHUB_OUTPUT"
-
+          echo "MY_VAR=$my_var" >> $GITHUB_ENV
+          echo "MY_VAR=$my_var" >> $GITHUB_OUTPUT
 
       - name: print
         run: |
