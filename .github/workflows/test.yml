@@ -25,6 +25,7 @@ jobs:
           else
             my_var="updated"
           fi
+          echo $my_var
           echo "MY_VAR=$my_var" >> $GITHUB_ENV
           echo "MY_VAR=$my_var" >> $GITHUB_OUTPUT
 
